@@ -8,13 +8,13 @@ films = json.load(open("Data/films.json"))
 
 @app.route('/')
 def index():
-	return '/api/v1/films to see all films'
+	return '/films to see all films'
 
-@app.route('/api/v1/films',methods=['GET'])
+@app.route('/films',methods=['GET'])
 def get_films():
 	return jsonify({"films":films})
 
-@app.route('/api/v1/films/<string:title>',methods=['GET'])
+@app.route('/films/<string:title>',methods=['GET'])
 def get_film_title(title):
 	film = [film for film in films if film["Title"] == title ]
 	if len(film) ==0:
@@ -26,5 +26,5 @@ def not_found(error):
 	return make_response(jsonify({'error':'Not Found'}),404)
 
 if __name__ == "__main__":        
-    # app.run(debug=True,host='127.0.0.1',port=port) 
-	app.run(host = "0.0.0.0", port = os.environ.get("PORT", 5000), debug=True)                
+    app.run(debug=True,host='127.0.0.1',port=port) 
+	# app.run(host = "0.0.0.0", port = port, debug=True)                
