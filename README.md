@@ -1,14 +1,11 @@
-# Project médiatèque
+# Project filmographie
+## Objectif du Projet
+le projet sera une filmographie comprenant un certain nombre de films avec une recherche de film par le titre.
 
-## Lien de Heroku
--> https://kilian-longepe-film.herokuapp.com
+## Réalisation
+Le frontend sera développée en HTML, CSS, JS et fera appel au backend, qui sera développé en Python Flask.(frontend: en cour, backend: en partie fini) 
+La base de données sera intégrée avec le backend et utilisera Firestore. (en cour)
+Le deployement ce fera sur heroku. (le deployement est fonctionnel)
 
-## Objectif du mini Projet
-le projet sera une médiatèque comprenant un ceratin nombre de film avec une recherche de film par le titre.
-
-## comment fonctionne la page et l'appli
-
-il suffi d'aller sur le lien heroku pour aller sur la page web.
-ensuite il faut ajouter "/api/v1/films/" au liens la une liste de films s'affichera.
-pour en chosir un il faut rajouter le titre du film choisi au liens. 
-
+voici l'architecture du projet prévu pour le moment:
+<img src="Data\architectureProject.png"/>

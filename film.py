@@ -21,7 +21,8 @@ def get_film_title(title):
 	film = [film for film in films if film["Title"] == title ]
 	if len(film) ==0:
 		abort(404,"film with title::{} does not exit".format(title))
-	return render_template('film.html', title="film", jsonfile=json.dumps({"films":film}))
+	# return render_template('film.html', title="film", jsonfile=json.dumps({"films":film}))
+	return jsonify({"films":film})
 
 @app.errorhandler(404)
 def not_found(error):
@@ -29,4 +30,4 @@ def not_found(error):
 
 if __name__ == "__main__":        
     # app.run(debug=True,host='127.0.0.1',port = port) 
-	app.run(host = "0.0.0.0", port = os.environ.get("PORT", 5000), debug=True)                
+	app.run(host = "0.0.0.0", port = port, debug=True)                
