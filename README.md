@@ -8,4 +8,5 @@ La base de données sera intégrée avec le backend et utilisera Firestore. (en 
 Le deployement ce fera sur heroku. (le deployement est fonctionnel)
 
 voici l'architecture du projet prévu pour le moment:
+
 <img src="Data\architectureProject.png"/>
