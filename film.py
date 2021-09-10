@@ -1,28 +1,81 @@
-from flask import Flask,render_template, jsonify, make_response,abort
+from flask import Flask,render_template, jsonify, request , make_response,abort
+from firebase_admin import credentials, firestore, initialize_app
 
 import json
 import os, sys
-
 
 app = Flask(__name__)
 port = int(os.environ.get("PORT",5000))
 films = json.load(open("Data/films.json"))
 
+
+cred = credentials.Certificate('Data/key.json')
+default_app = initialize_app(cred)
+db = firestore.client()
+doc_ref = db.collection('bddfilms').document('ZaE2fwAxJfzrq0PdWFPw')
+
+emp_ref = db.collection('bddfilms')
+docs =emp_ref.stream()
+
 @app.route('/')
 def index():
 	return '/films to see all films'
 
-@app.route('/films',methods=['GET'])
-def get_films():
-	return jsonify({"films":films})
+@app.route('/add', methods=['POST'])
+def create():
+    """
+        create() : Add document to Firestore collection 
+       
+    """
+    try:
+        id = request.json['id']
+        doc_ref.document(id).set(request.json)
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
 
-@app.route('/films/<string:title>',methods=['GET'])
-def get_film_title(title):
-	film = [film for film in films if film["Title"] == title ]
-	if len(film) ==0:
-		abort(404,"film with title::{} does not exit".format(title))
-	# return render_template('film.html', title="film", jsonfile=json.dumps({"films":film}))
-	return jsonify({"films":film})
+
+@app.route('/list', methods=['GET'])
+def read():
+    """
+        read() : Fetches documents from Firestore collection as JSON
+        all_todos : Return all documents
+    """
+    try:
+
+        docs =emp_ref.stream()
+        all_todos = [doc.to_dict() for doc in docs]
+        return jsonify(all_todos), 200
+
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+
+@app.route('/update', methods=['POST', 'PUT'])
+def update():
+    """
+        update() : Update document in Firestore collection
+    """
+    try:
+        id = request.json['id']
+        doc_ref.document(id).update(request.json)
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+
+@app.route('/delete', methods=['GET', 'DELETE'])
+def delete():
+    """
+        delete() : Delete a document from Firestore collection
+    """
+    try:
+        # Check for ID in URL query
+        todo_id = request.args.get('id')
+        doc_ref.document(todo_id).delete()
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
 
 @app.errorhandler(404)
 def not_found(error):
