@@ -1,13 +1,11 @@
-from flask import Flask,render_template, jsonify, request , make_response,abort
+from flask import Flask,render_template, jsonify, request , make_response
 from firebase_admin import credentials, firestore, initialize_app
 
-import json
-import os, sys
+
+import os
 
 app = Flask(__name__)
 port = int(os.environ.get("PORT",5000))
-films = json.load(open("Data/films.json"))
-
 
 cred = credentials.Certificate('Data/key.json')
 default_app = initialize_app(cred)
@@ -82,5 +80,5 @@ def not_found(error):
 	return make_response(jsonify({'error':'Not Found'}),404)
 
 if __name__ == "__main__":        
-    # app.run(debug=True,host='127.0.0.1',port = port) 
-	app.run(host = "0.0.0.0", port = port, debug=True)                
+    # app.run(debug=True,host='127.0.0.1',port = port) #local
+	app.run(host = "0.0.0.0", port = port, debug=True) #container              
