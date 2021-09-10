@@ -17,7 +17,7 @@ docs =emp_ref.stream()
 
 @app.route('/')
 def index():
-	return '/films to see all films'
+	return '/list to see all films, /add to add new film, /update to update a film and /delete to delete a film'
 
 @app.route('/add', methods=['POST'])
 def create():
